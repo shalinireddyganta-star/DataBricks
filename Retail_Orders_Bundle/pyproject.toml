@@ -29,3 +29,6 @@ build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 120
+
+[tool.databricks.environment]
+environment_version = '6'

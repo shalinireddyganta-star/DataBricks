@@ -1,0 +1,19 @@
+resources:
+  pipelines:
+    retaillakeflowpipelines:
+      name: RetailLakeFlowPipelines
+      configuration:
+        "Bronzecatalog": ${var.Bronzecatalog}
+        "Bronzeschema": ${var.BronzeSchema}
+        "pipelines.clusterLabelsV2Enabled": "true"
+        "pipelines.enzyme.enabled": "true"
+      libraries:
+        - glob:
+            include: ../src/retaillakeflowpipelines/transformations/**
+      catalog: retailraw
+      channel: CURRENT
+      continuous: false
+      photon: true
+      root_path: ../src/retaillakeflowpipelines/transformations/Bronze
+      schema: bronze
+      serverless: true

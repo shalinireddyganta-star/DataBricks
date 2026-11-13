@@ -18,6 +18,10 @@ variables:
     description: The catalog to use
   schema:
     description: The schema to use
+  Bronzecatalog:
+     description: Bronze Retail
+  BronzeSchema:
+     description: Bronze Schema
 
 targets:
   dev:
@@ -32,6 +36,8 @@ targets:
     variables:
       catalog: hididev
       schema: bronze
+      Bronzecatalog: retailrawdev
+      BronzeSchema: bronze
   prod:
     mode: production
     workspace:
@@ -41,6 +47,8 @@ targets:
     variables:
       catalog: hidiprod
       schema: bronze
+      Bronzecatalog: retailrawprod
+      BronzeSchema: bronze
     permissions:
       - user_name: shalinireddyganta@gmail.com
         level: CAN_MANAGE
