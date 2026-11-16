@@ -9,18 +9,20 @@ from pyspark.sql.functions import (
 job_id: str = "101"
 job_name: str = "RetailLakeFlowPipelines"
 
-source_root_path = "/Volumes/hidi/raw/hidi/Retail/OrdersMain/"
+source_root_path = "/Volumes/hidi/raw/hidi/Retail/payments/"
 incremental_load_path = f"{source_root_path}/*"
 
 # Resolve catalog/schema from pipeline configuration
 #Bronzecatalog = spark.conf.get("Bronzecatalog")
 #Bronzeschema = spark.conf.get("Bronzeschema")
-Bronzecatalog = "retailrawdev"
-Bronzeschema = "bronze"
+#Bronzecatalog = "retailrawdev"
+#Bronzeschema = "bronze"
+Bronze_catalog = spark.conf.get("catalog")
+Bronze_schema = spark.conf.get("schema")
 # Create streaming table
 @dp.table(
-    name=f"{Bronzecatalog}.{Bronzeschema}.OrdersMain",
-    comment="Raw stagingorderitems",
+    name=f"{Bronze_catalog}.{Bronze_schema}.payment",
+    comment="Raw Payement data",
      table_properties={
         "quality": "bronze",
         "layer": "bronze",
@@ -42,12 +44,10 @@ def ingest():
         .option("cloudFiles.maxFilesPerTrigger", 100)
         .option("cloudFiles.schemaEvolutionMode", "addNewColumns")
         .option("modifiedAfter", "2025-01-01T00:00:00.000+00:00")
-        .option("overwriteschema","true")
         .load(incremental_load_path)
 
         # Cast parquet timestamp_ntz columns to timestamp (timestampNtz Delta feature not enabled on streaming tables)
-        .withColumn("ordered_at", col("ordered_at").cast("timestamp"))
-        .withColumn("shipped_at", col("shipped_at").cast("timestamp"))
+        .withColumn("paid_at", col("paid_at").cast("timestamp"))
 
         # Custom metadata columns
         .withColumn("RawIngestionTimestamp", current_timestamp())

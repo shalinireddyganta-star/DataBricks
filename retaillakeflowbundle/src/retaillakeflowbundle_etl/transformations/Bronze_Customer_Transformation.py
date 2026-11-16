@@ -6,21 +6,19 @@ from pyspark.sql.functions import (
     input_file_name
 )
 
-
+Bronze_catalog = spark.conf.get("catalog")
+Bronze_schema = spark.conf.get("schema")
 job_id: str = "101"
 job_name: str = "RetailLakeFlowPipelines"
 
 source_root_path = "/Volumes/hidi/raw/hidi/Retail/Customer/"
 incremental_load_path = f"{source_root_path}/*"
-Bronzecatalog = "retailrawdev"
-Bronzeschema = "bronze"
 # Resolve catalog/schema from pipeline configuration
 #Bronzecatalog = spark.conf.get("Bronzecatalog")
 #Bronzeschema = spark.conf.get("Bronzeschema")
-
 # Create streaming table
 @dp.table(
-    name=f"{Bronzecatalog}.{Bronzeschema}.Customer",
+    name=f"{Bronze_catalog}.{Bronze_schema}.Customer",
     comment="Raw Customer",
      table_properties={
         "quality": "bronze",

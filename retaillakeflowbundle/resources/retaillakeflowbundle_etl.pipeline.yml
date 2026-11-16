@@ -1,0 +1,24 @@
+# The main pipeline for retaillakeflowbundle
+
+resources:
+  pipelines:
+    retaillakeflowbundle_etl:
+      name: retaillakeflowbundle_etl
+      catalog: ${var.Bronzeretailcatalog}
+      schema: ${var.Bronzeretailschema}
+      serverless: true
+      root_path: "../src/retaillakeflowbundle_etl"
+     
+
+      libraries:
+        - glob:
+            include: ../src/retaillakeflowbundle_etl/transformations/**
+
+      environment:
+        dependencies:
+          # We include every dependency defined by pyproject.toml by defining an editable environment
+          # that points to the folder where pyproject.toml is deployed.
+          - --editable ${workspace.file_path}
+      configuration:
+        catalog: ${var.Bronzeretailcatalog}
+        schema:  ${var.Bronzeretailschema}

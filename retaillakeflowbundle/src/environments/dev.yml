@@ -1,0 +1,11 @@
+targets:
+  dev:
+    permissions:
+      - user_name: shalinireddyganta@gmail.com
+        level: CAN_MANAGE
+    variables:
+      catalog: dev_catalog
+      schema: dev_schema
+      Bronzeretailschema: retailrawbronze
+      Bronzeretailcatalog: retailrawdev
+      warehouse_id : e26a99b3cebc211d

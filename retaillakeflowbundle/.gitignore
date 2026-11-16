@@ -1,0 +1,12 @@
+.databricks/
+build/
+dist/
+__pycache__/
+*.egg-info
+.venv/
+scratch/**
+!scratch/README.md
+**/explorations/**
+**/!explorations/README.md
+sample_trips_retaillakeflowbundle.py
+sample_zones_retaillakeflowbundle.py

@@ -11,17 +11,18 @@ job_name: str = "RetailLakeFlowPipelines"
 
 source_root_path = "/Volumes/hidi/raw/hidi/Retail/categories/"
 incremental_load_path = f"{source_root_path}/*"
-Bronzecatalog = "retailrawdev"
-Bronzeschema = "bronze"
+#Bronzecatalog = "retailrawdev"
+#Bronzeschema = "bronze"
+Bronze_catalog = spark.conf.get("Bronzecatalog")
+Bronze_schema = spark.conf.get("Bronzeschema")
 # Resolve catalog/schema from pipeline configuration
 #Bronzecatalog = spark.conf.get("Bronzecatalog")
 #Bronzeschema = spark.conf.get("Bronzeschema")
 
 # Create streaming table
 @dp.table(
-    name= f"{Bronzecatalog}.{Bronzeschema}.Productcategories",
-    comment="Raw stagingorderitems",
-    "overwriteMode" : "true"
+    name=f"{Bronze_catalog}.{Bronze_schema}.Productcategories",
+    comment="Raw stagingorderitems"
 )
 def ingest():
 

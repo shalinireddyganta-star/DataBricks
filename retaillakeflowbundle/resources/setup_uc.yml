@@ -1,0 +1,13 @@
+resources:
+  jobs:
+    setup_unity_catalog:
+      name: setup-unity-catalog
+
+      tasks:
+        - task_key: create_catalog_schema
+
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            file:
+              path: ../src/retaillakeflowbundle_etl/CreateCatalog_setup.sql
+              source: WORKSPACE

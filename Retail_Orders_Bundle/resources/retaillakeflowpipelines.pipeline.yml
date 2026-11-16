@@ -2,6 +2,7 @@ resources:
   pipelines:
     retaillakeflowpipelines:
       name: RetailLakeFlowPipelines
+      catalog: ${var.Bronzecatalog}
       configuration:
         "Bronzecatalog": ${var.Bronzecatalog}
         "Bronzeschema": ${var.BronzeSchema}
@@ -10,10 +11,8 @@ resources:
       libraries:
         - glob:
             include: ../src/retaillakeflowpipelines/transformations/**
-      catalog: retailraw
-      channel: CURRENT
-      continuous: false
-      photon: true
-      root_path: ../src/retaillakeflowpipelines/transformations/Bronze
-      schema: bronze
+      schema: ${var.BronzeSchema}
       serverless: true
+      root_path: ../src/retaillakeflowpipelines/transformations/Bronze
+     
+

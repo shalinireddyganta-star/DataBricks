@@ -6,22 +6,18 @@ from pyspark.sql.functions import (
     input_file_name
 )
 
-job_id:str = "1016u"
+job_id: str = "101"
 job_name: str = "RetailLakeFlowPipelines"
 
-source_root_path = "/Volumes/hidi/raw/hidi/Retail/Returns/"
+source_root_path = "/Volumes/hidi/raw/hidi/Retail/Orders/"
 incremental_load_path = f"{source_root_path}/*"
+Bronze_catalog = spark.conf.get("catalog")
+Bronze_schema = spark.conf.get("schema")
 
-# Resolve catalog/schema from pipeline configuration
-#Bronzecatalog = spark.conf.get("Bronzecatalog")
-#Bronzeschema = spark.conf.get("Bronzeschema")
-Bronzecatalog = "retailrawdev"
-Bronzeschema = "bronze"
-# Create streaming table
 @dp.table(
-    name=f"{Bronzecatalog}.{Bronzeschema}.Returns",
+    name=f"{Bronze_catalog}.{Bronze_schema}.RawOrderItems",
     comment="Raw stagingorderitems",
-     table_properties={
+      table_properties={
         "quality": "bronze",
         "layer": "bronze",
         "source_format": "parquet",
@@ -30,7 +26,6 @@ Bronzeschema = "bronze"
         "delta.autoOptimize.autoCompact": "true",
         "overwriteMode" : "true"
     }
-     
 )
 def ingest():
 
@@ -43,10 +38,9 @@ def ingest():
         .option("cloudFiles.maxFilesPerTrigger", 100)
         .option("cloudFiles.schemaEvolutionMode", "addNewColumns")
         .option("modifiedAfter", "2025-01-01T00:00:00.000+00:00")
+        .option("cloudFiles.schemaEvolutionMode", "addNewColumns")
+        .option("modifiedAfter", "2025-01-01T00:00:00.000+00:00")
         .load(incremental_load_path)
-
-        # Cast parquet timestamp_ntz columns to timestamp (timestampNtz Delta feature not enabled on streaming tables)
-        .withColumn("returned_at", col("returned_at").cast("timestamp"))
 
         # Custom metadata columns
         .withColumn("RawIngestionTimestamp", current_timestamp())

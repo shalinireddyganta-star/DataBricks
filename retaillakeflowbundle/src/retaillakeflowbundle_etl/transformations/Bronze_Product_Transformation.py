@@ -32,11 +32,13 @@ PipelineName = pipeline.name
 #source_table = spark.conf.get("source_table")
 source_root_path = "/Volumes/hidi/raw/hidi/Retail/Product/"
 incremental_load_path = f"{source_root_path}/*"
-Bronzecatalog = "retailrawdev"
-Bronzeschema = "bronze"
+#Bronzecatalog = "retailrawdev"
+#Bronzeschema = "bronze"
+Bronze_catalog = spark.conf.get("catalog")
+Bronze_schema = spark.conf.get("schema")
 # Create streaming table
 @dp.table(
-  name=f"{Bronzecatalog}.{Bronzeschema}.Product",
+  name=f"{Bronze_catalog}.{Bronze_schema}.Product",
     comment="Raw stagingorderitems",
      table_properties={
         "quality": "bronze",
@@ -44,8 +46,7 @@ Bronzeschema = "bronze"
         "source_format": "parquet",
         "delta.enableChangeDataFeed": "true",
         "delta.autoOptimize.optimizeWrite": "true",
-        "delta.autoOptimize.autoCompact": "true",
-        "overwriteMode" : "true"
+        "delta.autoOptimize.autoCompact": "true"
     }
 )
 def ingest():
