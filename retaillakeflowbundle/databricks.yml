@@ -21,6 +21,9 @@ variables:
   warehouse_id:
     description: SQL Warehouse ID
     default: your_warehouse_id
+  workspace_host:
+    description: Host URL
+    default: https://dbc-75f3f777-70d3.cloud.databricks.com
 
 targets:
   dev:
@@ -38,7 +41,7 @@ targets:
   prod:
     mode: production
     workspace:
-      host: https://dbc-d1c8c35a-9b05.cloud.databricks.com
+      host: https://dbc-75f3f777-70d3.cloud.databricks.com
       root_path: /Workspace/Users/shalinireddyganta@gmail.com/.bundle/${bundle.name}/${bundle.target}
     permissions:
       - user_name: shalinireddyganta@gmail.com

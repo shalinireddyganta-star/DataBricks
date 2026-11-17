@@ -9,3 +9,4 @@ targets:
       Bronzeretailschema: retailrawbronze
       Bronzeretailcatalog: retailrawdev
       warehouse_id : e26a99b3cebc211d
+      workspace_host : https://dbc-75f3f777-70d3.cloud.databricks.com
